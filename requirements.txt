@@ -1,2 +1,3 @@
 crewai[tools,agentops]==0.114.0
 python-dotenv==1.1.0
+tavily-python==0.7.0
