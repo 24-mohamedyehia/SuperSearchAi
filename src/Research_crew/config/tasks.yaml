@@ -1,0 +1,23 @@
+QueryRefinerTask:
+  description: |
+    Receive this query from the user: '{user_query}'.
+    - If it's unclear, ask clarifying questions for user to get more detail.
+    - ask all questions to user in one question. Don't ask more than 2 questions.
+    - questions should be number format with number options provid.
+    - Each query should focus on one specific aspect of the original question.
+    - Queries should be diverse, if the topic is broad, generate more than 1 query.
+    - Don't generate multiple similar queries, 1 is enough.
+    - Query should ensure that the most current information is gathered. The current date is {current_date}.
+    - Then generate up {no_keywords} search queries that match the user's intent. 
+  expected_output: |
+    A JSON object conforming to the SuggestedSearchQueries model.
+
+ResearcherTask:
+  description: |
+    Task instruction:
+    - search on the internet based on {search_queries} provided.
+    - You have to collect results from multiple search queries.
+    - use search tool to search for all provided search queries.
+    - Do NOT search each query separately. Use the tool that accepts a list of queries.
+  expected_output: |
+    A confirmation message that the results were collected and saved successfully.
