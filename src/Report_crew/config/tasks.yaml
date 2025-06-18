@@ -14,7 +14,7 @@ ReportTask:
     - Main Content: Detailed analysis with numbered subsections covering each major point from search results
     - Comparison Table: Professional Bootstrap table comparing all key aspects with columns for Category, Key Information, Potential Earnings, and Required Skills
     - Conclusion: Comprehensive summary and actionable recommendations (3-4 paragraphs)
-    - Sources: Complete list of all sources referenced in the research
+    - Sources: (links / urls)
     Do NOT use markdown code blocks (no ```html or ```)
   expected_output: |
     A Professional Html file containing of the report.
