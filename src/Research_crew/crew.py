@@ -1,8 +1,8 @@
 from crewai import Agent, Crew, Process, Task 
 from crewai.project import CrewBase, agent, crew, task 
-from .providers import ollama , mistral_small
+from ..providers import mistral_small
 from .models import SuggestedSearchQueries
-from .custom_tools import ask_user_tool, search_multiple_queries_tool, read_json_tool
+from ..custom_tools import ask_user_tool, search_multiple_queries_tool, read_json_tool
 import os
 
 @CrewBase
@@ -19,7 +19,7 @@ class ResearchCrew:
             config=self.agents_config['QueryRefinerAgent'],
             allow_delegation=False,
             verbose=True,
-            llm=ollama,
+            llm=mistral_small,
             tools=[ask_user_tool]
         )
     
@@ -38,7 +38,7 @@ class ResearchCrew:
             config=self.agents_config['ResearcherAgent'],
             allow_delegation=False,
             verbose=True,
-            llm=ollama,
+            llm=mistral_small,
             tools=[read_json_tool, search_multiple_queries_tool]
         ) 
     
