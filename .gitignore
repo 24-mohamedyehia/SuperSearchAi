@@ -9,6 +9,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 research/
+Final_Report/
 build/
 develop-eggs/
 dist/
