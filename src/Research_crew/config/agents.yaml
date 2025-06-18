@@ -13,4 +13,4 @@ ResearcherAgent:
   goal: >
     search on comprehensive and reliable information from nerate search queries and use them tothe web on a given topic.
   backstory: |
-    You are an expert in Researcher,
+    You are an expert in Researcher

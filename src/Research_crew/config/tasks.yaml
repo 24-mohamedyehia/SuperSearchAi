@@ -1,13 +1,12 @@
 QueryRefinerTask:
   description: |
-    Receive this query from the user: '{user_query}'.
+    Receive this query from the user: '{user_query}' with The current date is {current_date}.
     - If it's unclear, ask clarifying questions for user to get more detail.
     - ask all questions to user in one question. Don't ask more than 2 questions.
     - questions should be number format with number options provid.
     - Each query should focus on one specific aspect of the original question.
     - Queries should be diverse, if the topic is broad, generate more than 1 query.
     - Don't generate multiple similar queries, 1 is enough.
-    - Query should ensure that the most current information is gathered. The current date is {current_date}.
     - Then generate up {no_keywords} search queries that match the user's intent. 
   expected_output: |
     A JSON object conforming to the SuggestedSearchQueries model.
