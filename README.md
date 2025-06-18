@@ -1,10 +1,16 @@
 # SuperSearchAi
 An AI-powered search engine that understand natural language questions and provide accurate answers.
 
+![SuperSearchAi](./public/supersearchai.png)
+
 ## 🛠 Features
 - AI-powered search 
 - Natural language question understanding
 - Accurate answers
+
+## AI Providers
+- OpenRouter
+- Ollama
 
 ## 📋 Requirements
 - Python 3.11
