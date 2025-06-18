@@ -12,6 +12,9 @@ An AI-powered search engine that understand natural language questions and provi
 - OpenRouter
 - Ollama
 
+## Search Providers
+- Tavily (Default search provider)
+
 ## 📋 Requirements
 - Python 3.11
 
