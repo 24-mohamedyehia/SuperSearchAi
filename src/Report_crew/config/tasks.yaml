@@ -1,0 +1,20 @@
+ReportTask:
+  description: |
+    Generate a comprehensive, professional HTML research report based on the provided 
+    search results {search_results} and user query {user_query}. The report must be 
+    a complete, standalone HTML document with professional styling using Bootstrap 5.3.0.
+    REPORT STRUCTURE REQUIREMENTS:
+      1. Document title and meta tags for proper rendering
+      2. Professional styling with Times New Roman font, proper spacing, and clean layout
+      3. No colors - use only black, white, and grayscale styling
+    CONTENT REQUIREMENTS:
+    - Title: Clear, descriptive title that reflects the research topic
+    - Executive Summary: Comprehensive overview of key findings and insights (2-3 paragraphs)
+    - Image Gallery: Five placeholder image boxes displayed in a row with descriptive labels
+    - Main Content: Detailed analysis with numbered subsections covering each major point from search results
+    - Comparison Table: Professional Bootstrap table comparing all key aspects with columns for Category, Key Information, Potential Earnings, and Required Skills
+    - Conclusion: Comprehensive summary and actionable recommendations (3-4 paragraphs)
+    - Sources: Complete list of all sources referenced in the research
+    Do NOT use markdown code blocks (no ```html or ```)
+  expected_output: |
+    A Professional Html file containing of the report.
