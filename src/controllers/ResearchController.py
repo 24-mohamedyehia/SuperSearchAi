@@ -17,12 +17,12 @@ class ResearchController(BaseController):
             return False, ResponseSignal.INVALID_SEARCH_WAY.value
 
         if search_way == 1:
-            # ResearchCrew().crew().kickoff(inputs={
-            #     'user_query': topic,
-            #     'no_keywords': 2,
-            #     'current_date': datetime.now().strftime("%Y-%m-%d"),
-            #     'search_queries': os.path.join('./src/Research_crew/research/step_one_search_queries.json')
-            # })
+            ResearchCrew().crew().kickoff(inputs={
+                'user_query': topic,
+                'no_keywords': 5,
+                'current_date': datetime.now().strftime("%Y-%m-%d"),
+                'search_queries': os.path.join('./src/Research_crew/research/step_one_search_queries.json')
+            })
 
             ReportCrew().crew().kickoff(inputs={
                 'search_results': os.path.join('./src/Research_crew/research/all_search_results.json'),
