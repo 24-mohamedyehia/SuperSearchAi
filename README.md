@@ -58,6 +58,11 @@ $ cp .env.example .env
 ```bash
 $ python main.py
 ```
+# Run Server
+To run the FastAPI server, use the command:
+```bash
+uvicorn app:app --reload --port 8000
+```
 
 ## 🛠 Technologies
 - Python 3.11
