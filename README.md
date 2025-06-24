@@ -52,7 +52,7 @@ $ cp .env.example .env
 - AGENTOPS_API_KEY value to monitor the agents
     - You can get your AgentOps API key from [here](https://agentops.com/).
 - TVLY_SEARCH_API_KEY value to search the web
-    - You can get your TVLY_SEARCH_API_KEY from [here](https://tavily.ai/).
+    - You can get your TVLY_SEARCH_API_KEY from [here](https://app.tavily.com/).
 
 ### 🚀 Run the application
 ```bash
