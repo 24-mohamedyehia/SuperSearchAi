@@ -1,2 +1,3 @@
-from .research_request import ResearchRequest
+from .start_request import StartRequest
 from .ResponseEnums import ResponseSignal
+from .search_request import SearchRequest

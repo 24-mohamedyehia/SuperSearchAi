@@ -1,27 +1,21 @@
 from crewai import LLM
-import os
-from dotenv import load_dotenv
-load_dotenv()
+from .helpers import get_settings
+app_settings = get_settings()
 
-ollama_base_url = os.getenv("OLLAMA_BASE_URL")
-open_router_api_key = os.getenv("OPEN_ROUTER_API_KEY")
-
-ollama = LLM(
-    model= 'ollama/hf.co/Triangle104/Mistral-Small-3.1-24B-Instruct-2503-Q4_K_M-GGUF:Q4_K_M',
-    base_url= ollama_base_url,
-    temperature=0
-)
+LLM_PROVIDER= app_settings.LLM_PROVIDER
+LLM_API_KEY= app_settings.LLM_API_KEY
+BASE_URL= "https://openrouter.ai/api/v1"
 
 deepseek_v3 = LLM(
-    model="openrouter/deepseek/deepseek-chat-v3-0324:free",
-    base_url="https://openrouter.ai/api/v1",
-    api_key=open_router_api_key,
+    model= f"{LLM_PROVIDER}/deepseek/deepseek-chat-v3-0324:free",
+    base_url=BASE_URL,
+    api_key=LLM_API_KEY,
     temperature=0.5
 )
 
 mistral_small = LLM(
-    model="openrouter/mistralai/mistral-small-3.1-24b-instruct:free",
-    base_url="https://openrouter.ai/api/v1",
-    api_key=open_router_api_key,
+    model= f"{LLM_PROVIDER}/mistralai/mistral-small-3.1-24b-instruct:free",
+    base_url=BASE_URL,
+    api_key=LLM_API_KEY,
     temperature=0
 )

@@ -12,13 +12,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{api}}/api/v1/",
+					"raw": "{{api}}/",
 					"host": [
 						"{{api}}"
 					],
 					"path": [
-						"api",
-						"v1",
 						""
 					]
 				}
@@ -26,13 +24,13 @@
 			"response": []
 		},
 		{
-			"name": "get_user_input",
+			"name": "start",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"topic\": \"The Future of NLP\",\r\n  \"search_way\": 1\r\n}",
+					"raw": "{\r\n  \"query\": \"i want to know about Ai in education\",\r\n  \"llm_provider\": \"openrouter\",\r\n  \"llm_api_key\": \"dgd\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -40,14 +38,69 @@
 					}
 				},
 				"url": {
-					"raw": "{{api}}/api/v1/research",
+					"raw": "{{api}}/start/",
 					"host": [
 						"{{api}}"
 					],
 					"path": [
-						"api",
-						"v1",
-						"research"
+						"start",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"session_id\": \"af2dce7a-78dd-4ac9-a4ff-03f2b7a7a37a\",\r\n    \"search_mode\": \"quick\",\r\n    \"query\": \"i want to know about Ai in education\",\r\n    \"answers\": \"1- personalized learning , 2- higher education, 3- research papers\",\r\n    \"clarification\": [\r\n        {\r\n            \"question\": \"Are you interested in how AI is currently being used in education (e.g., personalized learning, grading) or its future potential applications?\"\r\n        },\r\n        {\r\n            \"question\": \"Do you want information about AI in a specific educational level (K-12, higher education, corporate training)?\"\r\n        },\r\n        {\r\n            \"question\": \"Are you looking for case studies, research papers, or general overviews about AI in education?\"\r\n        }\r\n        ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/search",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get results",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/results/",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"results",
+						""
 					]
 				}
 			},

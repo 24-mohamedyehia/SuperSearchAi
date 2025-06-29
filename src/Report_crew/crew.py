@@ -4,8 +4,6 @@ from ..providers import deepseek_v3
 from ..custom_tools import read_json_tool
 import os
 
-OUTPUT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../assets/final_report'))
-
 @CrewBase
 class ReportCrew:   
     """
@@ -29,7 +27,7 @@ class ReportCrew:
         return Task(
             config=self.tasks_config['ReportTask'],
             agent=self.ReportAgent(),
-            output_file = os.path.join(OUTPUT_DIR, "Deep_Research_Report.html")
+            output_file = os.path.join(os.path.dirname(__file__), f"./final_report/Deep_Research_Report.html")
         )
     
     @crew

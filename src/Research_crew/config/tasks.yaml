@@ -1,13 +1,14 @@
-QueryRefinerTask:
+QueryGenerationTask:
   description: |
-    Receive this query from the user: '{user_query}' with The current date is {current_date}.
-    - If it's unclear, ask clarifying questions for user to get more detail.
-    - ask all questions to user in one question. Don't ask more than 2 questions.
-    - questions should be number format with number options provid.
-    - Each query should focus on one specific aspect of the original question.
-    - Queries should be diverse, if the topic is broad, generate more than 1 query.
-    - Don't generate multiple similar queries, 1 is enough.
-    - Then generate up {no_keywords} search queries that match the user's intent. 
+    You have received the following user query: '{user_query}'.
+    The user has provided additional clarification: {user_details}.
+    The current date is {current_date}.
+    Your task is to understand the user's intent clearly and proceed in two steps:
+    **Query Generation:**
+      - Based on the user's original question and any additional details, generate up to **{no_keywords} distinct search queries**.
+      - Each query should focus on one specific aspect of the original question.
+      - Queries should be diverse, if the topic is broad, generate more than 1 query.
+      - Don't generate multiple similar queries, 1 is enough.
   expected_output: |
     A JSON object conforming to the SuggestedSearchQueries model.
 
