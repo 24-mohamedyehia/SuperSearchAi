@@ -9,18 +9,6 @@ search_client = TavilyClient(api_key=os.getenv("TVLY_SEARCH_API_KEY"))
 output_dir = os.path.abspath(r'src\Research_crew\research')
 
 @tool
-def ask_user_tool(questions: str) -> str:
-    """
-    This Tool to ask the user clarifying questions during task execution.
-    Input should be a string containing one or more questions.
-    Returns the user's response as a string.
-    """
-    print("\n🧠 The agent needs more information from you:\n")
-    print(questions)
-    answer = input("\n💬 Your answer: ")
-    return answer
-
-@tool
 def read_json_tool(file_path: str) -> json:
     """
     Read a JSON file from the given file path and return its content as a dictionary.
