@@ -1,13 +1,15 @@
-from .StartController import BaseController 
-from ..Research_crew import ResearchCrew
-from ..Report_crew import ReportCrew
-from ..models import ResponseSignal
+from Research_crew import ResearchCrew
+from Report_crew import ReportCrew
+from models import ResponseSignal
 from datetime import datetime
 import os
 
+from .BaseController import BaseController
+
 class SearchController(BaseController):
-        def __init__(self, query: str, search_mode: str, answers: str, session_id: str, clarification: list[dict[str, str]]):
+        def __init__(self, query: str, search_mode: str, answers: str, session_id: str, clarification: list[dict[str, str]], llm_setting=None):
             super().__init__()
+            self.llm_setting = llm_setting
             self.query = query
             self.search_mode = search_mode
             self.answers = answers
@@ -24,7 +26,7 @@ class SearchController(BaseController):
             
 
         def run_background_tasks(self):
-            ResearchCrew().crew().kickoff(inputs={
+            ResearchCrew(self.llm_setting).crew().kickoff(inputs={
                 'user_query': self.query,
                 'user_details': self.user_details,
                 'current_date': datetime.now().strftime("%Y-%m-%d"),
@@ -32,7 +34,7 @@ class SearchController(BaseController):
                 'search_queries': os.path.join('./src/Research_crew/research/step_one_search_queries.json')
             })
 
-            ReportCrew().crew().kickoff(inputs={
+            ReportCrew(self.llm_setting).crew().kickoff(inputs={
                 'search_results': os.path.join('./src/Research_crew/research/all_search_results.json'),
                 'user_query': self.query
             })

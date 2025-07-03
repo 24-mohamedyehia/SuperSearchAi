@@ -1,8 +1,9 @@
 from fastapi import APIRouter , BackgroundTasks
-from ..models import SearchRequest
-from ..controllers import SearchController
+from models import SearchRequest
+from controllers import SearchController
 from fastapi.responses import JSONResponse
 from fastapi import status
+from providers import SettingsHolder
 
 search_router = APIRouter(
     prefix="/search",
@@ -17,7 +18,8 @@ async def create_search(request: SearchRequest, background_tasks: BackgroundTask
         answers=request.answers,
         session_id=request.session_id,
         clarification=request.clarification,
-        query=request.query
+        query=request.query,
+        llm_setting=SettingsHolder.LLM_SETTINGS
     )
     is_valid, signal = search_controller.search()
         

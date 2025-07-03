@@ -1,0 +1,23 @@
+name: clarification
+description: Ask user for clarifying questions.
+template: |
+  Receive this query from the user with The current date is {current_date}.
+  ### User Question:
+  {user_question}
+
+  ### Instructions:
+  - If it's unclear, ask clarifying questions for user to get more detail to get the best search results.
+  - ask all questions to user in one question. Don't ask more than 3 questions.
+  - Avoid asking repetitive or obvious questions.
+  - questions should be in numbered format.
+
+  ### Format your answer exactly like this (JSON):
+  "clarification": [
+      {{ "question": "..." }},
+      {{ "question": "..." }},
+      {{ "question": "..." }}
+  ]
+
+  Do NOT include any other text, only valid JSON.
+  Dont include any json format like ```json or ``` at the start or end of your response.
+  ### Answer:

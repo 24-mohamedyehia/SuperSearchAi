@@ -10,10 +10,10 @@ class StartRequest(BaseModel):
         Ensures that all string fields are non-empty."""
 
     query: str = Field(..., description="The query to search")
-    llm_provider: str = Field(..., description="The LLM provider")
-    llm_api_key: str = Field(..., description="API key of provider")
+    LLM_PROVIDER: str = Field(..., description="The LLM provider")
+    LLM_API_KEY: str = Field(..., description="API key of provider")
 
-    @field_validator("query", "llm_provider", "llm_api_key")
+    @field_validator("query", "LLM_PROVIDER", "LLM_API_KEY")
     def not_empty(value, info):
         if isinstance(value, str) and not value.strip():
             raise ValueError(f"{info.field_name} must be a non-empty string.")

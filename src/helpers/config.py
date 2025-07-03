@@ -6,11 +6,8 @@ class Settings(BaseSettings):
     APP_NAME: str
     APP_VERSION: str
     LLM_PROVIDER_SUPPORT: List[str] = ['openrouter']
-    LLM_PROVIDER: str
-    LLM_API_KEY: str 
-    
     class Config:
         env_file = "/.env"
 
-def get_settings():
+def get_base_settings():
     return Settings()

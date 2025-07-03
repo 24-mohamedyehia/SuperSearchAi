@@ -30,7 +30,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"query\": \"i want to know about Ai in education\",\r\n  \"llm_provider\": \"openrouter\",\r\n  \"llm_api_key\": \"dgd\"\r\n}",
+					"raw": "{\r\n  \"query\": \"i want to know about Model Context Protocol\",\r\n  \"LLM_PROVIDER\": \"openrouter\",\r\n  \"LLM_API_KEY\": \"sk-or-v1-\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -57,7 +57,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"session_id\": \"af2dce7a-78dd-4ac9-a4ff-03f2b7a7a37a\",\r\n    \"search_mode\": \"quick\",\r\n    \"query\": \"i want to know about Ai in education\",\r\n    \"answers\": \"1- personalized learning , 2- higher education, 3- research papers\",\r\n    \"clarification\": [\r\n        {\r\n            \"question\": \"Are you interested in how AI is currently being used in education (e.g., personalized learning, grading) or its future potential applications?\"\r\n        },\r\n        {\r\n            \"question\": \"Do you want information about AI in a specific educational level (K-12, higher education, corporate training)?\"\r\n        },\r\n        {\r\n            \"question\": \"Are you looking for case studies, research papers, or general overviews about AI in education?\"\r\n        }\r\n        ]\r\n}",
+					"raw": "{\r\n    \"session_id\": \"2dbe87f6-909c-4349-a85e-2f8b09349817\",\r\n    \"search_mode\": \"quick\",\r\n    \"query\": \"i want to know about Model Context Protocol\",\r\n    \"answers\": \"1- data modeling , 2- use cases, 3- PyTorch\",\r\n    \"clarification\": [\r\n        {\r\n            \"question\": \"Are you referring to the Model Context Protocol in the context of machine learning, data modeling, or another specific field?\"\r\n        },\r\n        {\r\n            \"question\": \"Do you need information about the technical specifications, use cases, or implementation examples of the Model Context Protocol?\"\r\n        },\r\n        {\r\n            \"question\": \"Is there a particular framework or technology (e.g., TensorFlow, PyTorch) associated with the Model Context Protocol that you're interested in?\"\r\n        }\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -86,7 +86,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "",
+					"raw": "{\r\n    \"session_id\": \"2dbe87f6-909c-4349-a85e-2f8b09349817\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

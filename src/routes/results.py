@@ -1,5 +1,6 @@
 from fastapi import APIRouter
-from ..controllers import ResultsController
+from controllers import ResultsController
+from models import ResultReuest
 from fastapi.responses import JSONResponse
 from fastapi import status
 
@@ -9,9 +10,11 @@ results_router = APIRouter(
 )
 
 @results_router.get("/")
-async def get_results(): 
+async def get_results(request: ResultReuest): 
 
-    results_controller = ResultsController()
+    results_controller = ResultsController(
+        session_id=request.session_id
+    )
     is_valid, signal = results_controller.get_results()
 
     if not is_valid:
