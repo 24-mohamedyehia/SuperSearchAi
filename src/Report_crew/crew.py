@@ -1,7 +1,7 @@
 from crewai import Agent, Crew, Process, Task 
 from crewai.project import CrewBase, agent, crew, task 
-from ..providers import deepseek_v3
-from ..custom_tools import read_json_tool
+from providers import get_deepseek_v3, InintLMM
+from custom_tools import read_json_tool
 import os
 
 @CrewBase
@@ -12,13 +12,16 @@ class ReportCrew:
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
 
+    def __init__(self, llm_setting: InintLMM):
+        self.llm_setting = llm_setting
+
     @agent
     def ReportAgent(self) -> Agent:
         return Agent(
             config=self.agents_config['ReportAgent'],
             allow_delegation=False,
             verbose=True,
-            llm=deepseek_v3,
+            llm=get_deepseek_v3(self.llm_setting),
             tools=[read_json_tool]
         )
     

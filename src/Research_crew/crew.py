@@ -1,17 +1,22 @@
 from crewai import Agent, Crew, Process, Task 
 from crewai.project import CrewBase, agent, crew, task 
-from ..providers import mistral_small
+from providers import get_mistral_small
 from .models import SuggestedSearchQueries
-from ..custom_tools import search_multiple_queries_tool, read_json_tool
+from custom_tools import search_multiple_queries_tool, read_json_tool
+from providers import InintLMM
 import os
 
 @CrewBase
-class ResearchCrew:
+class ResearchCrew():
     """
     Research Crew for quick search about user query
     """
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
+
+    def __init__(self, llm_setting: InintLMM):
+        self.llm_setting = llm_setting
+        self.llm = get_mistral_small(self.llm_setting)
 
     @agent
     def QueryGeneratorAgent(self) -> Agent:
@@ -19,7 +24,7 @@ class ResearchCrew:
             config=self.agents_config['QueryGeneratorAgent'],
             allow_delegation=False,
             verbose=True,
-            llm=mistral_small
+            llm=self.llm
         )
     
     @task
@@ -37,7 +42,7 @@ class ResearchCrew:
             config=self.agents_config['ResearcherAgent'],
             allow_delegation=False,
             verbose=True,
-            llm=mistral_small,
+            llm=self.llm,
             tools=[read_json_tool, search_multiple_queries_tool]
         ) 
     
