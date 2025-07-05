@@ -3,29 +3,37 @@ from Report_crew import ReportCrew
 from models import ResponseSignal
 from datetime import datetime
 import os
+import json
+from typing import List, Dict, Any, Optional
 
 from .BaseController import BaseController
+from src.models.search_request import AnswerItem
+
 
 class SearchController(BaseController):
-        def __init__(self, query: str, search_mode: str, answers: str, session_id: str, clarification: list[dict[str, str]], llm_setting=None):
-            super().__init__()
-            self.llm_setting = llm_setting
-            self.query = query
-            self.search_mode = search_mode
-            self.answers = answers
-            self.session_id = session_id
-            self.user_details = str(clarification) + "\nUser Answers: \n" + self.answers
+    def __init__(self, session_id: str, search_mode: str, query: str, answers: List[AnswerItem], llm_setting=None):
+        super().__init__()
+        self.llm_setting = llm_setting
+        self.session_id = session_id
+        self.search_mode = search_mode
+        self.query = query
+        self.answers = answers
+        self.user_details = self._format_user_answers()
+        self.session_file = f"./src/Research_crew/research/session_{self.session_id}.json"
 
-        def search(self):
-            if self.search_mode.lower() == "quick":
-                return True, ResponseSignal.STARTED_SEARCH.value
-            elif self.search_mode.lower() == "deep":
-                return False, ResponseSignal.NOT_YET_IMPLEMENTED.value
-            else:
-                return False, ResponseSignal.INVALID_SEARCH_MODE.value
-            
+    def search(self):
+        # Save initial session data
+        self._save_session_data("in_progress")
 
-        def run_background_tasks(self):
+        if self.search_mode.lower() == "quick":
+            return True, ResponseSignal.STARTED_SEARCH.value
+        elif self.search_mode.lower() == "deep":
+            return False, ResponseSignal.NOT_YET_IMPLEMENTED.value
+        else:
+            return False, ResponseSignal.INVALID_SEARCH_MODE.value
+
+    def run_background_tasks(self):
+        try:
             ResearchCrew(self.llm_setting).crew().kickoff(inputs={
                 'user_query': self.query,
                 'user_details': self.user_details,
@@ -38,3 +46,84 @@ class SearchController(BaseController):
                 'search_results': os.path.join('./src/Research_crew/research/all_search_results.json'),
                 'user_query': self.query
             })
+
+            # Update session data with results
+            self._save_session_data("completed")
+
+        except Exception as e:
+            self._save_session_data("failed", error=str(e))
+
+    def get_search_results(self) -> Optional[Dict[str, Any]]:
+        """Get search results for the current session."""
+        try:
+            if os.path.exists(self.session_file):
+                with open(self.session_file, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            return None
+        except Exception as e:
+            print(f"Error reading session file: {e}")
+            return None
+
+    def _save_session_data(self, status: str, error: Optional[str] = None):
+        """Save session data to JSON file."""
+        session_data = {
+            "session_id": self.session_id,
+            "status": status,
+            "search_mode": self.search_mode,
+            "query": self.query,
+            "user_details": self.user_details,
+            "search_results": self._load_search_results(),
+            "report": self._load_report(),
+            "created_at": datetime.now().isoformat(),
+            "completed_at": datetime.now().isoformat() if status in ["completed", "failed"] else None,
+            "error": error
+        }
+
+        try:
+            os.makedirs(os.path.dirname(self.session_file), exist_ok=True)
+            with open(self.session_file, 'w', encoding='utf-8') as f:
+                json.dump(session_data, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            print(f"Error saving session data: {e}")
+
+    def _load_search_results(self) -> List[Dict[str, Any]]:
+        """Load search results from the research crew output."""
+        try:
+            results_file = './src/Research_crew/research/all_search_results.json'
+            if os.path.exists(results_file):
+                with open(results_file, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            return []
+        except Exception as e:
+            print(f"Error loading search results: {e}")
+            return []
+
+    def _load_report(self) -> Optional[str]:
+        """Load generated report from the report crew output."""
+        try:
+            # You might need to adjust this path based on where ReportCrew saves the report
+            report_file = './src/Research_crew/research/final_report.txt'
+            if os.path.exists(report_file):
+                with open(report_file, 'r', encoding='utf-8') as f:
+                    return f.read()
+            return None
+        except Exception as e:
+            print(f"Error loading report: {e}")
+            return None
+
+    def _format_user_answers(self) -> str:
+        """Format the answers from AnswerItem objects into a readable string."""
+        if not self.answers:
+            return "No answers provided."
+
+        formatted_answers = {}
+        for answer in self.answers:
+            # Access AnswerItem attributes, not dictionary keys
+            formatted_answers[answer.question_id] = answer.choice
+
+        # Convert to readable format
+        answer_strings = []
+        for question_id, choice in formatted_answers.items():
+            answer_strings.append(f"Question {question_id}: {choice}")
+
+        return "User Answers:\n" + "\n".join(answer_strings)

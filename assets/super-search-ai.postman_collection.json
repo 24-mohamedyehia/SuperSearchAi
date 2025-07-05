@@ -57,7 +57,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"session_id\": \"2dbe87f6-909c-4349-a85e-2f8b09349817\",\r\n    \"search_mode\": \"quick\",\r\n    \"query\": \"i want to know about Model Context Protocol\",\r\n    \"answers\": \"1- data modeling , 2- use cases, 3- PyTorch\",\r\n    \"clarification\": [\r\n        {\r\n            \"question\": \"Are you referring to the Model Context Protocol in the context of machine learning, data modeling, or another specific field?\"\r\n        },\r\n        {\r\n            \"question\": \"Do you need information about the technical specifications, use cases, or implementation examples of the Model Context Protocol?\"\r\n        },\r\n        {\r\n            \"question\": \"Is there a particular framework or technology (e.g., TensorFlow, PyTorch) associated with the Model Context Protocol that you're interested in?\"\r\n        }\r\n    ]\r\n}",
+					"raw": "{\r\n    \"session_id\": \"2dbe87f6-909c-4349-a85e-2f8b09349817\",\r\n    \"search_mode\": \"quick\",\r\n    \"query\": \"i want to know about Model Context Protocol\",\r\n    \"answers\": [\r\n        {\r\n            \"question_id\": \"1\",\r\n            \"choice\": \"data modeling\"\r\n        },\r\n        {\r\n            \"question_id\": \"2\",\r\n            \"choice\": \"use cases\"\r\n        },\r\n        {\r\n            \"question_id\": \"3\",\r\n            \"choice\": \"PyTorch\"\r\n        }\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -78,29 +78,17 @@
 		},
 		{
 			"name": "get results",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"session_id\": \"2dbe87f6-909c-4349-a85e-2f8b09349817\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "{{api}}/results/",
+					"raw": "{{api}}/results/2dbe87f6-909c-4349-a85e-2f8b09349817",
 					"host": [
 						"{{api}}"
 					],
 					"path": [
 						"results",
-						""
+						"2dbe87f6-909c-4349-a85e-2f8b09349817"
 					]
 				}
 			},
