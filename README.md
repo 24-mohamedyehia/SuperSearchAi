@@ -65,6 +65,43 @@ To run the FastAPI server, use the command:
 uvicorn app:app --reload --port 8000
 ```
 
+## 📡 API Endpoints
+
+### 1. Start Search Session
+**POST** `/start/`
+```json
+{
+  "query": "Your search query",
+  "LLM_PROVIDER": "openrouter",
+  "LLM_API_KEY": "your-api-key"
+}
+```
+
+### 2. Execute Search
+**POST** `/search/`
+```json
+{
+  "session_id": "uuid-from-start-endpoint",
+  "search_mode": "quick",
+  "query": "Your search query",
+  "answers": [
+    {
+      "question_id": "1",
+      "choice": "Your answer choice"
+    }
+  ]
+}
+```
+
+### 3. Get Search Results
+**GET** `/results/{session_id}`
+
+Returns comprehensive search results including:
+- Search status (in_progress, completed, failed)
+- Search results from web queries
+- Generated AI report
+- User details and query information
+
 ## 🛠 Technologies
 - Python 3.11
 - CrewAI
