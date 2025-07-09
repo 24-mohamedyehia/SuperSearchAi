@@ -1,12 +1,13 @@
 from crewai.tools import tool
 from tavily import TavilyClient
 from dotenv import load_dotenv
+from typing import List
 import json
 import os
 load_dotenv()
 
 search_client = TavilyClient(api_key=os.getenv("TVLY_SEARCH_API_KEY"))
-output_dir = os.path.abspath(r'src\Research_crew\research')
+output_dir = os.path.abspath(r'src\Quick_Research_crew\research')
 
 @tool
 def read_json_tool(file_path: str) -> json:
@@ -22,9 +23,9 @@ def read_json_tool(file_path: str) -> json:
             return json.load(f)
 
 @tool
-def search_multiple_queries_tool(queries: list):
+def search_multiple_queries_tool(queries: List):
     """
-    Search for a list of queries and store all results in one JSON file
+    This method takes a list of queries and store all results in one JSON file
     Args:
         list of queries to search between []
     """
@@ -33,7 +34,7 @@ def search_multiple_queries_tool(queries: list):
     }
 
     for query in queries:
-        results = search_client.search(query, max_results=2, include_images=True)
+        results = search_client.search(query, max_results=3, include_images=True)
         for result in results['results']:
             single_result = {
                 'search_query': results['query'],
@@ -49,4 +50,4 @@ def search_multiple_queries_tool(queries: list):
     with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(all_results, f, ensure_ascii=False, indent=2)
 
-    return f"Saved {len(all_results['results'])} results to 'all_search_results.json'"
+    print(f"Saved {len(all_results['results'])} results to 'all_search_results.json'")

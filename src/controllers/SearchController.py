@@ -1,14 +1,12 @@
-from Research_crew import ResearchCrew
-from Report_crew import ReportCrew
+from Quick_Research_crew import ResearchCrew
 from models import ResponseSignal
 from datetime import datetime
-import os
-import json
-from typing import List, Dict, Any, Optional
-
+from typing import List, Optional
 from .BaseController import BaseController
 from src.models.search_request import AnswerItem
-
+from helpers import get_json_content, get_all_resources_urls, get_all_image_urls
+import os
+import json
 
 class SearchController(BaseController):
     def __init__(self, session_id: str, search_mode: str, query: str, answers: List[AnswerItem], llm_setting=None):
@@ -19,7 +17,7 @@ class SearchController(BaseController):
         self.query = query
         self.answers = answers
         self.user_details = self._format_user_answers()
-        self.session_file = f"./src/Research_crew/research/session_{self.session_id}.json"
+        self.session_file = f"./src/Quick_Research_crew/research/session_{self.session_id}.json"
 
     def search(self):
         # Save initial session data
@@ -38,31 +36,15 @@ class SearchController(BaseController):
                 'user_query': self.query,
                 'user_details': self.user_details,
                 'current_date': datetime.now().strftime("%Y-%m-%d"),
-                'no_keywords': 5,
-                'search_queries': os.path.join('./src/Research_crew/research/step_one_search_queries.json')
+                'no_keywords': 3,
+                'search_queries': os.path.join('../src/Quick_Research_crew/research/step_one_search_queries.json'),
+                'search_results': os.path.join('../src/Quick_Research_crew/research/all_search_results.json')
             })
 
-            ReportCrew(self.llm_setting).crew().kickoff(inputs={
-                'search_results': os.path.join('./src/Research_crew/research/all_search_results.json'),
-                'user_query': self.query
-            })
-
-            # Update session data with results
-            self._save_session_data("completed")
+            self._save_session_data("completed")    # Update session data with results
 
         except Exception as e:
             self._save_session_data("failed", error=str(e))
-
-    def get_search_results(self) -> Optional[Dict[str, Any]]:
-        """Get search results for the current session."""
-        try:
-            if os.path.exists(self.session_file):
-                with open(self.session_file, 'r', encoding='utf-8') as f:
-                    return json.load(f)
-            return None
-        except Exception as e:
-            print(f"Error reading session file: {e}")
-            return None
 
     def _save_session_data(self, status: str, error: Optional[str] = None):
         """Save session data to JSON file."""
@@ -72,8 +54,9 @@ class SearchController(BaseController):
             "search_mode": self.search_mode,
             "query": self.query,
             "user_details": self.user_details,
-            "search_results": self._load_search_results(),
-            "report": self._load_report(),
+            "report": get_json_content(self.report_content),
+            "images" : get_all_image_urls(self.all_result_dir),
+            "resources": get_all_resources_urls(self.all_result_dir),
             "created_at": datetime.now().isoformat(),
             "completed_at": datetime.now().isoformat() if status in ["completed", "failed"] else None,
             "error": error
@@ -86,35 +69,10 @@ class SearchController(BaseController):
         except Exception as e:
             print(f"Error saving session data: {e}")
 
-    def _load_search_results(self) -> List[Dict[str, Any]]:
-        """Load search results from the research crew output."""
-        try:
-            results_file = './src/Research_crew/research/all_search_results.json'
-            if os.path.exists(results_file):
-                with open(results_file, 'r', encoding='utf-8') as f:
-                    return json.load(f)
-            return []
-        except Exception as e:
-            print(f"Error loading search results: {e}")
-            return []
-
-    def _load_report(self) -> Optional[str]:
-        """Load generated report from the report crew output."""
-        try:
-            # You might need to adjust this path based on where ReportCrew saves the report
-            report_file = './src/Research_crew/research/final_report.txt'
-            if os.path.exists(report_file):
-                with open(report_file, 'r', encoding='utf-8') as f:
-                    return f.read()
-            return None
-        except Exception as e:
-            print(f"Error loading report: {e}")
-            return None
-
     def _format_user_answers(self) -> str:
         """Format the answers from AnswerItem objects into a readable string."""
         if not self.answers:
-            return "No answers provided."
+            return ResponseSignal.NO_ANSWERS_PROVIDED
 
         formatted_answers = {}
         for answer in self.answers:
@@ -124,6 +82,6 @@ class SearchController(BaseController):
         # Convert to readable format
         answer_strings = []
         for question_id, choice in formatted_answers.items():
-            answer_strings.append(f"Question {question_id}: {choice}")
+            answer_strings.append(f"Question {question_id} - {answer.question}: {choice}")
 
         return "User Answers:\n" + "\n".join(answer_strings)

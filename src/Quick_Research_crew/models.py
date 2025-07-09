@@ -1,10 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import List
 
-class SuggestedSearchQueries(BaseModel):
-    queries: List[str] = Field(...,
-        title="Suggested search queries to be passed to the search engine")
-
 class SingleSearchResult(BaseModel):
     title: str
     url: str = Field(..., title="The URL of the web page")
@@ -14,3 +10,7 @@ class SingleSearchResult(BaseModel):
 
 class AllSearchResults(BaseModel):
     results: List[SingleSearchResult]
+
+class QuickReport(BaseModel):
+    title: str
+    answer: str

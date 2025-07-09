@@ -10,7 +10,6 @@ search_router = APIRouter(
     tags=["search"]
 )
 
-
 @search_router.post("/")
 async def create_search(request: SearchRequest, background_tasks: BackgroundTasks):
 

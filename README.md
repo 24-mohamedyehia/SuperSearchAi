@@ -94,7 +94,7 @@ uvicorn app:app --reload --port 8000
 ```
 
 ### 3. Get Search Results
-**GET** `/results/{session_id}`
+**GET** `results/?session_id=`
 
 Returns comprehensive search results including:
 - Search status (in_progress, completed, failed)

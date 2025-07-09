@@ -1,8 +1,8 @@
 from crewai import Agent, Crew, Process, Task 
 from crewai.project import CrewBase, agent, crew, task 
-from providers import get_mistral_small
-from .models import SuggestedSearchQueries
-from custom_tools import search_multiple_queries_tool, read_json_tool
+from providers import get_mistral_small, get_deepseek_v3
+from .models import QuickReport
+from Quick_Research_crew.custom_tools import read_json_tool, search_multiple_queries_tool
 from providers import InintLMM
 import os
 
@@ -16,7 +16,8 @@ class ResearchCrew():
 
     def __init__(self, llm_setting: InintLMM):
         self.llm_setting = llm_setting
-        self.llm = get_mistral_small(self.llm_setting)
+        self.mistral_small = get_mistral_small(self.llm_setting)
+        self.deepseek_v3 = get_deepseek_v3(self.llm_setting)
 
     @agent
     def QueryGeneratorAgent(self) -> Agent:
@@ -24,33 +25,34 @@ class ResearchCrew():
             config=self.agents_config['QueryGeneratorAgent'],
             allow_delegation=False,
             verbose=True,
-            llm=self.llm
+            llm=self.mistral_small,
+            tools=[search_multiple_queries_tool]
         )
     
     @task
     def QueryGenerationTask(self) -> Task:
         return Task(
             config=self.tasks_config['QueryGenerationTask'],
-            agent=self.QueryGeneratorAgent(),
-            output_json=SuggestedSearchQueries,
-            output_file = os.path.join(os.path.dirname(__file__), f"research/step_one_search_queries.json")
+            agent=self.QueryGeneratorAgent()
         )
-    
+
     @agent
-    def ResearcherAgent(self) -> Agent:
+    def ReportAgent(self) -> Agent:
         return Agent(
-            config=self.agents_config['ResearcherAgent'],
+            config=self.agents_config['ReportAgent'],
             allow_delegation=False,
             verbose=True,
-            llm=self.llm,
-            tools=[read_json_tool, search_multiple_queries_tool]
-        ) 
+            llm=self.deepseek_v3,
+            tools=[read_json_tool]
+        )
     
     @task
-    def ResearcherTask(self) -> Task:
+    def ReportTask(self) -> Task:
         return Task(
-            config=self.tasks_config['ResearcherTask'],
-            agent=self.ResearcherAgent()
+            config=self.tasks_config['ReportTask'],
+            agent=self.ReportAgent(),
+            output_json= QuickReport,
+            output_file = os.path.join(os.path.dirname(__file__), f"./research/Research_Report.json")
         )
 
     @crew
