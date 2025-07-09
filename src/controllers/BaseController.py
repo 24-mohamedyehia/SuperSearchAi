@@ -7,11 +7,11 @@ class BaseController:
     def __init__(self):
         self.app_settings = get_base_settings()
         self.llm_setting = InintLMM()
-        self.all_search_result_dir = os.path.join(
+        self.all_result_dir = os.path.join(
             os.path.dirname(__file__),
-            "../Research_crew/research/all_search_results.json"
+            "../Quick_Research_crew/research/all_search_results.json"
         )
-        self.content_dir = os.path.join(
+        self.report_content = os.path.join(
             os.path.dirname(__file__),
-            "../Report_crew/final_report/Deep_Research_Report.html"
+            "../Quick_Research_crew/research/Research_Report.json"
         )
