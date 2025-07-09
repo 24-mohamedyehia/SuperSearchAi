@@ -11,3 +11,4 @@ class ResponseSignal(Enum):
     STARTED_SEARCH = "started_search"
     NOT_YET_IMPLEMENTED = "not_yet_implemented_search_mode"
     NO_RESULTS_FOUND = "no_results_found"
+    NO_ANSWERS_PROVIDED   = "no_answers_provided"
