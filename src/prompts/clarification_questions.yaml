@@ -7,22 +7,12 @@ template: |
 
   ### Instructions:
   - If it's unclear, ask clarifying questions for user to get more detail to get the best search results.
-  - ask all questions to user in one question. Don't ask more than 3 questions.
+  - ask all questions to user in one question. Don't ask more than 1 question.
   - Avoid asking repetitive or obvious questions.
   - questions should be in numbered format.
 
   ### Format your answer exactly like this (JSON):
   "clarification": [
-    {{
-      "question_id": "string",
-      "text": "string",
-      "choices": ["string", "string", "string"]
-    }},
-    {{
-      "question_id": "string",
-      "text": "string",
-      "choices": ["string", "string", "string"]
-    }},
     {{
       "question_id": "string",
       "text": "string",
