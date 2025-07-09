@@ -36,13 +36,14 @@ def get_all_image_urls(all_search_result_dir: str):
         print(e)
         return None
 
-def get_html_content(content_dir: str):
+def get_json_content(content_dir: str):
     """
-    Reads the HTML content from the specified file.
+    Reads the json content from the specified file.
     """
     try:
         with open(content_dir, "r", encoding="utf-8") as f:
-            return f.read()
+            data = json.load(f)
+        return data
     except Exception as e:
         print(e)
         return None
