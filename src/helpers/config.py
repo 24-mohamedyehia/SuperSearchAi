@@ -5,7 +5,7 @@ class Settings(BaseSettings):
 
     APP_NAME: str
     APP_VERSION: str
-    LLM_PROVIDER_SUPPORT: List[str] = ['openrouter']
+    LLM_PROVIDER_SUPPORT: List[str] = ['openrouter', 'ollama']
     class Config:
         env_file = "/.env"
 
