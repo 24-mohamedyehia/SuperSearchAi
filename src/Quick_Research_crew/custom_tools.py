@@ -10,17 +10,26 @@ search_client = TavilyClient(api_key=os.getenv("TVLY_SEARCH_API_KEY"))
 output_dir = os.path.abspath(r'src\Quick_Research_crew\research')
 
 @tool
-def read_json_tool(file_path: str) -> json:
+def read_search_results_tool(file_path: str) -> list:
     """
-    Read a JSON file from the given file path and return its content as a dictionary.
-    Tries to handle encoding errors gracefully.
+    Reads a JSON file from the given file path and returns a list of 'content' fields from each result.
+    Converts relative paths to absolute paths and handles encoding errors gracefully.
     """
+    abs_path = os.path.abspath(file_path)
+
+    if not os.path.exists(abs_path):
+        raise FileNotFoundError(f"File not found: {abs_path}")
+
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            return json.load(f)
+        with open(abs_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
     except UnicodeDecodeError:
-        with open(file_path, 'r', encoding='latin1') as f:
-            return json.load(f)
+        with open(abs_path, 'r', encoding='latin1') as f:
+            data = json.load(f)
+
+    contents = [result["content"] for result in data.get("results", []) if "content" in result]
+
+    return contents
 
 @tool
 def search_multiple_queries_tool(queries: List):
@@ -50,4 +59,4 @@ def search_multiple_queries_tool(queries: List):
     with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(all_results, f, ensure_ascii=False, indent=2)
 
-    print(f"Saved {len(all_results['results'])} results to 'all_search_results.json'")
+    return f"Saved {len(all_results['results'])} results to 'all_search_results.json'"
