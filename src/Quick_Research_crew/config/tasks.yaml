@@ -1,6 +1,5 @@
 QueryGenerationTask:
   description: |
-    You have received the following user query: '{user_query}'.
     The user has provided additional clarification: {user_details}.
     The current date is {current_date}.
     Your task is generate search queries and use a provided tools to search on the web
@@ -15,7 +14,7 @@ QueryGenerationTask:
 
 ReportTask:
   description: |
-    Generate a comprehensive, json based on the provided search results {search_results} and user query {user_query}.
+    Generate a comprehensive, json based on the provided search results {search_results}.
     Your answer must be answer for user question and clarification: {user_details}.
     CONTENT REQUIREMENTS:
     - Title
