@@ -3,11 +3,13 @@ from models import ResponseSignal
 from helpers.ask_user import ask_user_for_clarification
 
 class StartController(BaseController):
-    def __init__(self, query: str, llm_provider: str, llm_api_key: str, session_id: str):
+    def __init__(self, query: str, llm_provider: str, llm_api_key: str,base_url: str, model_name: str ,session_id: str):
         super().__init__()
         self.query = query
         self.llm_provider = llm_provider
         self.llm_api_key = llm_api_key
+        self.base_url = base_url
+        self.model_name = model_name
         self.session_id = session_id
         self.related_questions = None
 
@@ -18,6 +20,8 @@ class StartController(BaseController):
         
         self.llm_setting.set_llm_provider(self.llm_provider)
         self.llm_setting.set_llm_api_key(self.llm_api_key)
+        self.llm_setting.set_llm_base_url(self.base_url)
+        self.llm_setting.set_llm_model(self.model_name)
 
         related_questions = ask_user_for_clarification(self.query, self.llm_setting)
         if related_questions is None:

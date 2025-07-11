@@ -8,11 +8,11 @@ An AI-powered search engine that understand natural language questions and provi
 - Natural language question understanding
 - Accurate answers
 
-## AI Providers
+## Providers Supported
 - OpenRouter
 - Ollama
 
-## Search Providers
+## Search Providers Supported
 - Tavily (Default search provider)
 
 ## 📋 Requirements
@@ -52,8 +52,6 @@ $ cp .env.example .env
 ```
 
 7- Set your environment variables in the .env file. Like:
-- OPEN_ROUTER_API_KEY value to use LLM
-    - You can get your Open Router API key from [here](https://openrouter.ai/settings/keys).
 - AGENTOPS_API_KEY value to monitor the agents
     - You can get your AgentOps API key from [here](https://agentops.com/).
 - TVLY_SEARCH_API_KEY value to search the web
@@ -71,9 +69,11 @@ uvicorn app:app --reload --port 8000
 **POST** `/start/`
 ```json
 {
-  "query": "Your search query",
-  "LLM_PROVIDER": "openrouter",
-  "LLM_API_KEY": "your-api-key"
+  "query": "your search query",
+  "LLM_PROVIDER": "your LLM provider",
+  "LLM_API_KEY": "your LLM api key",
+  "LLM_MODEL": "your LLM model",
+  "LLM_BASE_URL": "your LLM base url"
 }
 ```
 

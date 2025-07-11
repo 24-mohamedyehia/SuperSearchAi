@@ -1,6 +1,6 @@
 import json
 from datetime import datetime
-from providers import get_deepseek_v3, InintLMM
+from providers import MakeLLM, InintLMM
 from helpers import load_prompt
 import os
 
@@ -18,7 +18,7 @@ def ask_user_for_clarification(user_question: str, llm_setting: InintLMM):
     This function sends a request to the LLM to ask the user for clarification on their query.
     It formats the request with the current date and the user's question.
     """
-    deepseek_v3= get_deepseek_v3(llm_setting)
+    llm = MakeLLM(llm_setting).get_llm()
 
     system_prompt = load_prompt(
     PORMPT_PATH,
@@ -32,7 +32,8 @@ def ask_user_for_clarification(user_question: str, llm_setting: InintLMM):
     ]
 
     try:
-        response = deepseek_v3.call(messages=messages)      # Make the LLM call with JSON response format
+        response = llm.call(messages=messages)      # Make the LLM call with JSON response format
+        response = response.strip().removeprefix("```json").removesuffix("```").strip() 
         response = json.loads(response)                     # Parse the JSON response
         return response['clarification']
     except Exception as e:

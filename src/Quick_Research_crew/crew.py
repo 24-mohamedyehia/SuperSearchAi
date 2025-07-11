@@ -1,9 +1,8 @@
 from crewai import Agent, Crew, Process, Task 
 from crewai.project import CrewBase, agent, crew, task 
-from providers import get_mistral_small, get_deepseek_v3
 from .models import QuickReport
-from Quick_Research_crew.custom_tools import read_json_tool, search_multiple_queries_tool
-from providers import InintLMM
+from Quick_Research_crew.custom_tools import read_search_results_tool, search_multiple_queries_tool
+from providers import InintLMM, MakeLLM
 import os
 
 @CrewBase
@@ -16,8 +15,7 @@ class ResearchCrew():
 
     def __init__(self, llm_setting: InintLMM):
         self.llm_setting = llm_setting
-        self.mistral_small = get_mistral_small(self.llm_setting)
-        self.deepseek_v3 = get_deepseek_v3(self.llm_setting)
+        self.llm = MakeLLM(self.llm_setting).get_llm()
 
     @agent
     def QueryGeneratorAgent(self) -> Agent:
@@ -25,7 +23,8 @@ class ResearchCrew():
             config=self.agents_config['QueryGeneratorAgent'],
             allow_delegation=False,
             verbose=True,
-            llm=self.mistral_small,
+            memory=True,
+            llm=self.llm,
             tools=[search_multiple_queries_tool]
         )
     
@@ -42,8 +41,9 @@ class ResearchCrew():
             config=self.agents_config['ReportAgent'],
             allow_delegation=False,
             verbose=True,
-            llm=self.deepseek_v3,
-            tools=[read_json_tool]
+            memory=True,
+            llm=self.llm,
+            tools=[read_search_results_tool]
         )
     
     @task

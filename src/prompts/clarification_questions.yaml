@@ -6,10 +6,12 @@ template: |
   {user_question}
 
   ### Instructions:
-  - If it's unclear, ask clarifying questions for user to get more detail to get the best search results.
-  - ask all questions to user in one question. Don't ask more than 1 question.
-  - Avoid asking repetitive or obvious questions.
-  - questions should be in numbered format.
+  - If it's unclear, ask **one** clarifying question to help improve search results.
+  - Question should be have three choices.
+  - Question must be **numbered**.
+  - DO NOT ask more than one question.
+  - DO NOT include explanation or introduction.
+  - DO NOT include anything outside the required JSON format.
 
   ### Format your answer exactly like this (JSON):
   "clarification": [
@@ -21,5 +23,5 @@ template: |
   ]
 
   Do NOT include any other text, only valid JSON.
-  Dont include any json format like ```json or ``` at the start or end of your response.
+  **IMPORTANT: DO NOT wrap the output in triple backticks or markdown. Return only raw valid JSON object.**
   ### Answer:

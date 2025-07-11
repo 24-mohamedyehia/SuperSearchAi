@@ -37,8 +37,7 @@ class SearchController(BaseController):
                 'user_details': self.user_details,
                 'current_date': datetime.now().strftime("%Y-%m-%d"),
                 'no_keywords': 3,
-                'search_queries': os.path.join('../src/Quick_Research_crew/research/step_one_search_queries.json'),
-                'search_results': os.path.join('../src/Quick_Research_crew/research/all_search_results.json')
+                'search_results': os.path.join('src/Quick_Research_crew/research/all_search_results.json')
             })
 
             self._save_session_data("completed")    # Update session data with results
