@@ -1,1 +1,1 @@
-from .llm_call import get_mistral_small, get_deepseek_v3 ,InintLMM , SettingsHolder
+from .llm_call import MakeLLM, InintLMM, SettingsHolder
