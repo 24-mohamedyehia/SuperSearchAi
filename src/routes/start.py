@@ -19,6 +19,8 @@ async def create_research(request: StartRequest):
         query=request.query,
         llm_provider=request.LLM_PROVIDER,
         llm_api_key=request.LLM_API_KEY,
+        base_url=request.LLM_BASE_URL,
+        model_name=request.LLM_MODEL,
         session_id=session_id
     )
     is_valid, signal = start_controller.start()
