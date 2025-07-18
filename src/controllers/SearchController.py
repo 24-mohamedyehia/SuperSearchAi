@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import List, Optional
 from .BaseController import BaseController
 from src.models.search_request import AnswerItem
-from helpers import get_json_content, get_all_resources_urls, get_all_image_urls
+from helpers import get_markdown_content, get_all_resources_urls, get_all_image_urls
 import os
 import json
 
@@ -53,7 +53,7 @@ class SearchController(BaseController):
             "search_mode": self.search_mode,
             "query": self.query,
             "user_details": self.user_details,
-            "report": get_json_content(self.report_content),
+            "report": get_markdown_content(self.report_content),
             "images" : get_all_image_urls(self.all_result_dir),
             "resources": get_all_resources_urls(self.all_result_dir),
             "created_at": datetime.now().isoformat(),

@@ -1,6 +1,5 @@
 from crewai import Agent, Crew, Process, Task 
 from crewai.project import CrewBase, agent, crew, task 
-from .models import QuickReport
 from Quick_Research_crew.custom_tools import read_search_results_tool, search_multiple_queries_tool
 from providers import InintLMM, MakeLLM
 import os
@@ -51,8 +50,7 @@ class ResearchCrew():
         return Task(
             config=self.tasks_config['ReportTask'],
             agent=self.ReportAgent(),
-            output_json= QuickReport,
-            output_file = os.path.join(os.path.dirname(__file__), f"./research/Research_Report.json")
+            output_file = os.path.join(os.path.dirname(__file__), f"./research/Research_Report.md")
         )
 
     @crew

@@ -15,12 +15,15 @@ QueryGenerationTask:
 
 ReportTask:
   description: |
-    Generate a comprehensive, json based on the provided search results {search_results}.
-    Your answer must be answer for user question and clarification: {user_details}.
-    CONTENT REQUIREMENTS:
-    - Title
-    - Answer
-    Do NOT use json code blocks (no ```json or ```)
-    Do NOT include any images, charts, or external links or Urls
+    Generate a comprehensive response formatted in **Markdown** using the provided search results (`{search_results}`).
+    Your response must directly answer the user's question: {user_query} and include any necessary clarification provided in `{user_details}`.
+    ### Content Requirements:
+    - A clear and descriptive **Title**.
+    - A well-structured **Answer** that uses Markdown formatting (e.g., headings, lists, bold/italic text).
+    
+    Be written in the **same language** used in the user's question
+    Do **NOT** use Markdown code blocks (no triple backticks like ``` or ```markdown).
+    Do **NOT** include raw code; the output should be readable like an article or blog post.
+
   expected_output: |
-    A JSON object conforming to the `QuickReport` model.
+    A Markdown-formatted article with a title and a detailed answer, without code blocks.

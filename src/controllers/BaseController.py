@@ -13,5 +13,5 @@ class BaseController:
         )
         self.report_content = os.path.join(
             os.path.dirname(__file__),
-            "../Quick_Research_crew/research/Research_Report.json"
+            "../Quick_Research_crew/research/Research_Report.md"
         )

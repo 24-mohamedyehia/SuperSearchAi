@@ -10,7 +10,3 @@ class SingleSearchResult(BaseModel):
 
 class AllSearchResults(BaseModel):
     results: List[SingleSearchResult]
-
-class QuickReport(BaseModel):
-    title: str
-    answer: str
