@@ -36,14 +36,21 @@ def get_all_image_urls(all_search_result_dir: str):
         print(e)
         return None
 
-def get_json_content(content_dir: str):
+def get_markdown_content(file_path: str) -> str:
     """
-    Reads the json content from the specified file.
+    Reads the content of a Markdown (.md) file and returns it as a string.
+    
+    Parameters:
+        file_path (str): The path to the Markdown file.
+    
+    Returns:
+        str: The content of the Markdown file, or None if an error occurs.
     """
     try:
-        with open(content_dir, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        return data
+        with open(file_path, "r", encoding="utf-8") as f:
+            content = f.read()
+        return content
     except Exception as e:
-        print(e)
+        print(f"Error reading Markdown file: {e}")
         return None
+
