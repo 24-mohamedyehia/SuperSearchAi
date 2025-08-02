@@ -1,0 +1,67 @@
+PlanningTask:
+  description: |
+    You are a smart planning agent.  
+    Your job is to generate a **clear, structured, and comprehensive plan or outline** for the user's request or question.
+
+    The user's input is: "{user_query}"  
+    The user has provided the following additional details: "{user_details}"  
+    The current date is: {current_date}
+
+    Your output should:
+    - Contain 3 clearly numbered steps, sections, or points  
+    - Be high-level (no detailed explanation or content)  
+    - Be **relevant, practical, and actionable** based on the user's goal  
+    - Be suitable whether the query is a research question, personal goal, or a learning objective
+
+    You may include:
+    - Tasks to complete  
+    - Resources to search for  
+    - Topics to explore  
+    - Actions to take  
+    - Areas to consider
+
+    Adapt the outline structure depending on the type of request.
+
+  expected_output: |
+    A list of 3 numbered and well-structured points that guide the user in exploring or achieving what they asked for.
+
+WebSearchTask:
+  description: |
+    Your job is to search the web for relevant information based on the provided plan.
+    Your task is generate search queries and use a provided tools to search on the web
+    **Query Generation:**
+      - Based on the plan, generate up to length of the plan points distinct search queries.
+      - Don't generate multiple similar queries, 1 is enough.
+    loop for each query and pass it to provided tools to search on the web
+    - finally use provided tool to save all links on json file
+  expected_output: |
+    A confirmation message without any details.
+
+WebScraperTask:
+  description: |
+    Your role is to extract useful information from web pages based on {search_results}.
+    - Read the json file containing the search results.
+    - Use the scrape_tool to scrape the relevant page content.
+
+  expected_output: |
+    A Confirmation message without any details.
+
+# AnalysisTask:
+#   description: |
+#     You are an analysis agent.  
+#     Your job is to analyze the web search results and generate a comprehensive report.
+#   expected_output: |
+
+# ReportWriterTask:
+#   description: |
+#     Generate a comprehensive response formatted in **Markdown** using the provided search results (`{search_results}`).
+#     Your response must directly answer the user's question: {user_query} and include any necessary clarification provided in `{user_details}`.
+#     ### Content Requirements:
+#     - 
+#     - 
+    
+#     Be written in the **same language** used in the user's question
+#     Do **NOT** use Markdown code blocks (no triple backticks like ``` or ```markdown).
+
+#   expected_output: |
+#     A Markdown-formatted article with a title and a detailed answer, without code blocks.
