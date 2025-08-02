@@ -14,6 +14,7 @@ An AI-powered search engine that understand natural language questions and provi
 
 ## Search Providers Supported
 - Tavily (Default search provider)
+- Google (serper)
 
 ## 📋 Requirements
 - Python 3.11
@@ -56,6 +57,8 @@ $ cp .env.example .env
     - You can get your AgentOps API key from [here](https://agentops.com/).
 - TVLY_SEARCH_API_KEY value to search the web
     - You can get your TVLY_SEARCH_API_KEY from [here](https://app.tavily.com/).
+- serper API key value to search the web
+    - You can get your serper API key from [here](https://serper.dev/).
 
 ### Run Server
 To run the FastAPI server, use the command:
