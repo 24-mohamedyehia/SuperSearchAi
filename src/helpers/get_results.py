@@ -4,21 +4,32 @@ def get_all_resources_urls(all_search_result_dir: str):
     """ 
     Retrieves all resource URLs from the specified JSON file.
     Returns:
-        set: A set of resource URLs.
+        list: A list of URLs or dictionaries with title and url.
     """
     try:
         with open(all_search_result_dir, "r", encoding="utf-8") as f:
             data = json.load(f)
 
-        resource_list = []
-        for item in data["results"]:
-            title = item.get("title")
-            url = item.get("url")
-            if title and url:
-                resource_list.append({"title": title, "url": url})
-        return resource_list
+        results = data.get("results")
+
+        if isinstance(results, list):
+            if all(isinstance(item, str) for item in results):
+                return results
+
+            elif all(isinstance(item, dict) for item in results):
+                resource_list = []
+                for item in results:
+                    title = item.get("title")
+                    url = item.get("url")
+                    if title and url:
+                        resource_list.append({"title": title, "url": url})
+                return resource_list
+
+        print("Unexpected format in 'results'.")
+        return None
+
     except Exception as e:
-        print(e)
+        print(f"Error reading file: {e}")
         return None
 
 def get_all_image_urls(all_search_result_dir: str):
