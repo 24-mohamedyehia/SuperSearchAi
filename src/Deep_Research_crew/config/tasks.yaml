@@ -39,29 +39,32 @@ WebSearchTask:
 
 WebScraperTask:
   description: |
-    Your role is to extract useful information from web pages based on {search_results}.
-    - Read the json file containing the search results.
+    Your job is to scrape the web pages.
     - Use the scrape_tool to scrape the relevant page content.
 
   expected_output: |
     A Confirmation message without any details.
 
-# AnalysisTask:
-#   description: |
-#     You are an analysis agent.  
-#     Your job is to analyze the web search results and generate a comprehensive report.
-#   expected_output: |
 
-# ReportWriterTask:
-#   description: |
-#     Generate a comprehensive response formatted in **Markdown** using the provided search results (`{search_results}`).
-#     Your response must directly answer the user's question: {user_query} and include any necessary clarification provided in `{user_details}`.
-#     ### Content Requirements:
-#     - 
-#     - 
-    
-#     Be written in the **same language** used in the user's question
-#     Do **NOT** use Markdown code blocks (no triple backticks like ``` or ```markdown).
+ReportWriterTask:
+  description: |
+    Using the following plan: {research_plan} and all provided scraped content in json files, you will write a comprehensive report.
 
-#   expected_output: |
-#     A Markdown-formatted article with a title and a detailed answer, without code blocks.
+    Steps to follow:
+    1. Read the plan from the file `{research_plan}`.
+    2. Read all the scraped content from the provided JSON files.
+    3. Analyze the content and structure it into a professional research report.
+    4. Generate a comprehensive response formatted in **Markdown** based on the plan and scraped content.
+
+    - Your response must directly answer the user's question: {user_query} and include any necessary clarification provided in `{user_details}`.
+    ### Report structure:
+    - Title: A clear and concise title that reflects the main topic of the report.
+    - Introduction: A brief introduction that outlines the purpose and scope of the report.
+    - Body: The main content of the report, organized with the plan
+    - Conclusion: A summary of the key findings and recommendations.
+
+    Be written in the **same language** used in the user's question
+    Do **NOT** use Markdown code blocks (no triple backticks like ``` or ```markdown).
+
+  expected_output: |
+    A Markdown-formatted long article with a title and a detailed answer, without code blocks.
