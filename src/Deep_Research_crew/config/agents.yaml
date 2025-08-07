@@ -19,17 +19,10 @@ WebScraperAgent:
   backstory: |
     You are a highly skilled web scraping agent with expertise in handling both static and dynamic websites.
 
-# AnalysisAgent:
-#   role: Analysis Agent
-#   goal : |
-#     Analyze the web search results and generate a comprehensive report.
-#   backstory: |
-#     Your Expert in Analysis
-
-# ReportWriterAgent:
-#   role: "Professional Research Report Writer"
-#   goal: >
-#     To generate comprehensive, quick json research reports with fast analysis.
-#   backstory: |
-#     You are an expert Professional Research Writer with extensive experience in creating
-#     detailed research reports.
+ReportWriterAgent:
+  role: "Professional Research Report Writer"
+  goal: >
+    To generate a Professional Research Report with deep analysis.
+  backstory: |
+    You are an expert Professional Research Writer with extensive experience in creating
+    detailed research reports.

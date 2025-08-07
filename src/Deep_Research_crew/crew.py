@@ -1,8 +1,12 @@
 from crewai import Agent, Crew, Process, Task 
 from crewai.project import CrewBase, agent, crew, task 
 from providers import InintLMM, MakeLLM
-from .custom_tools import serper_search_tool, extract_and_save_links_from_search_results, scrape_tool , read_search_results_tool
+from .custom_tools import serper_search_tool, extract_links_and_save, scrape_tool, get_knowledge_json_paths
+from .custom_tools import file_json_read_tool
+from crewai_tools import FileReadTool
 import os
+
+file_read_tool = FileReadTool()
 
 @CrewBase
 class DeepResearchCrew():
@@ -30,7 +34,8 @@ class DeepResearchCrew():
     def PlanningTask(self) -> Task:
         return Task(
             config=self.tasks_config['PlanningTask'],
-            agent=self.PlanningAgent()
+            agent=self.PlanningAgent(),
+            output_file = os.path.join(os.path.dirname(__file__), f"./research_results/Research_Planning.md")
         )
     
     @agent
@@ -41,7 +46,7 @@ class DeepResearchCrew():
             verbose=True,
             memory=True,
             llm=self.llm,
-            tools=[serper_search_tool, extract_and_save_links_from_search_results]
+            tools=[serper_search_tool, extract_links_and_save]
         )
 
     @task
@@ -58,7 +63,7 @@ class DeepResearchCrew():
             allow_delegation=False,
             verbose=True,
             llm=self.llm,
-            tools=[scrape_tool, read_search_results_tool]
+            tools=[scrape_tool]
         )
 
     @task
@@ -66,6 +71,26 @@ class DeepResearchCrew():
         return Task(
             config=self.tasks_config['WebScraperTask'],
             agent=self.WebScraperAgent()
+        )
+
+    @agent
+    def ReportWriterAgent(self) -> Agent:
+        return Agent(
+            config=self.agents_config['ReportWriterAgent'],
+            allow_delegation=False,
+            verbose=True,
+            memory=True,
+            llm=self.llm,
+            tools=[get_knowledge_json_paths,
+                file_json_read_tool]
+        )
+
+    @task
+    def ReportWriterTask(self) -> Task:
+        return Task(
+            config=self.tasks_config['ReportWriterTask'],
+            agent=self.ReportWriterAgent(),
+            output_file = os.path.join(os.path.dirname(__file__), f"./research_results/Research_Report.md")
         )
 
     @crew
