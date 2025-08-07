@@ -15,8 +15,14 @@ logging.basicConfig(level=logging.INFO, filename='search_controller.log',)
 logger = logging.getLogger(__name__)
 
 class SearchController(BaseController):
-    QUICK_OUTPUT_DIR = "./src/Quick_Research_crew/research/"
-    DEEP_OUTPUT_DIR = "./src/Deep_Research_crew/research_results/"
+    QUICK_OUTPUT_DIR = os.path.join(
+            os.path.dirname(__file__),
+            "../Quick_Research_crew/research/"
+        )
+    DEEP_OUTPUT_DIR = os.path.join(
+            os.path.dirname(__file__),
+            "../Deep_Research_crew/research_results/"
+        )
 
     def __init__(self, session_id: str, search_mode: str, query: str, answers: List[AnswerItem], llm_setting=None):
         super().__init__()
@@ -27,6 +33,8 @@ class SearchController(BaseController):
         self.answers = answers
         self.user_details = self._format_user_answers()
         self.session_file = None
+        self.report_content = None
+        self.all_result_dir = None
 
     def search(self):
         if os.path.exists(self.QUICK_OUTPUT_DIR):
@@ -45,23 +53,27 @@ class SearchController(BaseController):
     def run_background_tasks(self):
         try:
             if self.search_mode.lower() == "quick":
+                self.report_content = os.path.join(self.QUICK_OUTPUT_DIR, 'Research_Report.md')
+                self.all_result_dir = os.path.join(self.QUICK_OUTPUT_DIR, 'all_search_results.json')
                 ResearchCrew(self.llm_setting).crew().kickoff(inputs={
                     'user_query': self.query,
                     'user_details': self.user_details,
                     'current_date': datetime.now().strftime("%Y-%m-%d"),
                     'no_keywords': 3,
-                    'search_results': os.path.join('src/Quick_Research_crew/research/all_search_results.json')
+                    'search_results': os.path.join(self.QUICK_OUTPUT_DIR, 'all_search_results.json')
                 })
             elif self.search_mode.lower() == "deep":
+                self.report_content = os.path.join(self.DEEP_OUTPUT_DIR, 'Research_Report.md')
+                self.all_result_dir = os.path.join(self.DEEP_OUTPUT_DIR, 'all_search_results.json')
                 DeepResearchCrew(self.llm_setting).crew().kickoff(inputs={
                     'user_query': self.query,
                     'user_details': self.user_details,
                     'current_date': datetime.now().strftime("%Y-%m-%d"),
-                    'search_results': os.path.join('src/Deep_Research_crew/research_results/all_search_results.json')
+                    'research_plan': os.path.join(self.DEEP_OUTPUT_DIR, 'Research_Planning.md'),
                 })
 
             self._save_session_data("completed",
-                                    report_content=get_markdown_content(self.all_result_dir),
+                                    report_content=get_markdown_content(self.report_content),
                                     images=get_all_image_urls(self.all_result_dir),
                                     resources=get_all_resources_urls(self.all_result_dir))
 
@@ -90,10 +102,9 @@ class SearchController(BaseController):
 
         try:
             if self.search_mode.lower() == "quick":
-                self.session_file = f"./src/Quick_Research_crew/research/session_{self.session_id}.json"
+                self.session_file = os.path.join(self.QUICK_OUTPUT_DIR, f"session_{self.session_id}.json")
             elif self.search_mode.lower() == "deep":
-                self.session_file = f"./src/Deep_Research_crew/research_results/session_{self.session_id}.json"
-
+                self.session_file = os.path.join(self.DEEP_OUTPUT_DIR, f"session_{self.session_id}.json")
             os.makedirs(os.path.dirname(self.session_file), exist_ok=True)
             with open(self.session_file, 'w', encoding='utf-8') as f:
                 json.dump(session_data, f, indent=2, ensure_ascii=False)
