@@ -1,7 +1,8 @@
 # SuperSearchAi
 An AI-powered search engine that understand natural language questions and provide accurate answers.
 
-![SuperSearchAi](./public/supersearchai.png)
+![SuperSearchAi](./public/supersearchai2.png)
+![SuperSearchAi Digram](./public/supersearchai.png)
 
 ## 🛠 Features
 - AI-powered search 
@@ -20,6 +21,8 @@ An AI-powered search engine that understand natural language questions and provi
 - Python 3.11
 
 ## 🚀 Quickstart
+
+### Backend Setup
 
 1- Fork and Clone repo
  - `git clone https://github.com/24-mohamedyehia/SuperSearchAi.git`
@@ -41,18 +44,19 @@ $ conda activate SuperSearchAi
 ```bash
 $ pip install -r requirements.txt
 ```
+
 6- Install the project in editable mode
 This step is important to make internal imports work correctly
 ```bash
 $ pip install -e .
 ```
 
-6- Setup the environment variables
+7- Setup the environment variables
 ```bash
 $ cp .env.example .env
 ```
 
-7- Set your environment variables in the .env file. Like:
+8- Set your environment variables in the .env file. Like:
 - AGENTOPS_API_KEY value to monitor the agents
     - You can get your AgentOps API key from [here](https://agentops.com/).
 - TVLY_SEARCH_API_KEY value to search the web
@@ -66,7 +70,29 @@ To run the FastAPI server, use the command:
 uvicorn app:app --reload --port 8000
 ```
 
-## 📡 API Endpoints
+### Frontend Setup (Vite + React)
+
+The UI lives in `frontend/`.
+
+1- Install dependencies
+```bash
+cd frontend
+npm install
+```
+
+2- Configure API base URL (optional if default is fine)
+- Create `frontend/.env` and set:
+```bash
+VITE_API_URL=http://localhost:8000
+```
+If not set, the frontend defaults to `http://localhost:8000` as seen in `frontend/src/services/searchApi.ts`.
+
+3- Run the dev server
+```bash
+npm run dev
+```
+
+### 📡 API Endpoints
 
 ### 1. Start Search Session
 **POST** `/start/`
@@ -105,11 +131,42 @@ Returns comprehensive search results including:
 - Generated AI report
 - User details and query information
 
-## 🛠 Technologies
+### 🗂️ Project Structure
+
+```
+SuperSearchAi/
+├─ app.py                  # FastAPI app entrypoint
+├─ requirements.txt        # Python deps
+├─ setup.py                # Editable install configuration
+├─ src/                    # Backend source
+│  ├─ routes/              # FastAPI routers: base, start, search, results
+│  ├─ controllers/         # Business logic
+│  ├─ models/              # Pydantic models (e.g., StartRequest)
+│  ├─ providers/           # Settings holder, provider configs
+│  └─ helpers/             # utils, prompt loader, etc.
+├─ frontend/               # Vite + React UI
+│  └─ src/
+│     ├─ assets/           # Project assets
+│     ├─ components/       # UI components
+│     ├─ hooks/            # React hooks
+│     ├─ lib/              # React Router routes
+│     ├─ services/         # API services
+│     ├─ types/            # Typescript types
+├─ public/                 # Project assets (e.g., supersearchai.png)
+└─ .env.example            # Environment variable template
+```
+
+## 🛠 Technologies 
 - Python 3.11
 - CrewAI
 - AgentOps
-- Tavily    
+- Tavily 
+- FastAPI
+- Vite
+- React
+- Typescript
+- TailwindCSS
+- React Router   
 
 ## 📜 License
 This project is licensed under the Apache License 2.0. See the [LICENSE](./LICENSE) file for details.
@@ -120,4 +177,3 @@ This project is licensed under the Apache License 2.0. See the [LICENSE](./LICEN
 ![fastapi](https://img.shields.io/badge/fastapi-109989?style=for-the-badge&logo=FASTAPI&logoColor=white)
 ![CrewAI](https://img.shields.io/badge/CrewAI-FF5A50.svg?style=for-the-badge&logo=CrewAI&logoColor=white)
 ![Apache-2.0](https://img.shields.io/badge/Apache--2.0-green?style=for-the-badge)
-
