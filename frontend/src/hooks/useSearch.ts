@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
-import { searchApi } from '../services/searchApi';
-import type { SearchSession, SearchResultItem } from '../types/search';
-import type { LLMProvider } from '../lib/apiKeys';
-import { getApiKey, getModel, getBaseUrl } from '../lib/apiKeys';
+import { searchApi } from '@/services/searchApi';
+import type { SearchSession, SearchResultItem } from '@/types/search';
+import type { LLMProvider } from '@/lib/apiKeys';
+import { getApiKey, getModel, getBaseUrl } from '@/lib/apiKeys';
 
 export const useSearch = () => {
   const [session, setSession] = useState<SearchSession>({
