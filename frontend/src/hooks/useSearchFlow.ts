@@ -1,11 +1,11 @@
 import { useState, useCallback } from 'react';
 import { useSearch } from './useSearch';
 import { useMessages } from './useMessages';
-import { handleSearchError, handleSubmitError } from '../lib/errorHandling';
-import type { LLMProvider } from '../lib/apiKeys';
-import type { SearchMode } from '../components/SearchInput';
-import type { Step } from '../components/ProgressSteps';
-import type { SearchResultItem } from '../types/search';
+import { handleSearchError, handleSubmitError } from '@/lib/errorHandling';
+import type { LLMProvider } from '@/lib/apiKeys';
+import type { SearchMode } from '@/components/SearchInput';
+import type { Step } from '@/components/ProgressSteps';
+import type { SearchResultItem } from '@/types/search';
 
 export const useSearchFlow = () => {
   const [currentStep, setCurrentStep] = useState<Step>("query");
